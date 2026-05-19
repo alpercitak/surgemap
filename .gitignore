@@ -1,0 +1,14 @@
+# General
+.DS_Store
+*.log
+.env
+.idea/
+.vscode/
+*.swp
+
+backend/bin/
+backend/*.exe
+backend/vendor/
+
+frontend/node_modules/
+frontend/dist/
