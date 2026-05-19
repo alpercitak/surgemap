@@ -1,4 +1,3 @@
-import type { HexagonLayerProps } from '@deck.gl/aggregation-layers';
 import type { DeckGLProps } from '@deck.gl/react';
 
 // Amsterdam center
@@ -12,7 +11,7 @@ export const INITIAL_VIEW: DeckGLProps['initialViewState'] = {
 
 // Surge color ramp: blue (low) → amber → red (surge)
 // Each entry: [r, g, b]
-export const COLOR_RANGE: HexagonLayerProps['colorRange'] = [
+export const COLOR_RANGE: Array<[number, number, number]> = [
   [0, 100, 220], // idle — cool blue
   [0, 180, 180], // slight demand — teal
   [250, 210, 0], // building — amber
