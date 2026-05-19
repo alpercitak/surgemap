@@ -1,6 +1,6 @@
-import { useWebSocket } from '../../hooks/websocket';
-import { SurgeMap } from '../../components/surgemap';
-import { Hud } from '../../components/hud';
+import { useWebSocket } from '@/hooks/websocket';
+import { SurgeMap } from '@/components/surgemap';
+import { Hud } from '@/components/hud';
 
 export const App = () => {
   const { cells, status } = useWebSocket();
