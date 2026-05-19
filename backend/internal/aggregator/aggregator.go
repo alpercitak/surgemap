@@ -118,7 +118,10 @@ func (a *Aggregator) ingest() {
 		case <-a.stopCh:
 			return
 		case ev := <-a.in:
-			cell := h3.LatLngToCell(h3.LatLng{Lat: ev.Lat, Lng: ev.Lng}, a.cfg.Resolution)
+			cell, err := h3.LatLngToCell(h3.LatLng{Lat: ev.Lat, Lng: ev.Lng}, a.cfg.Resolution)
+			if err != nil {
+				continue
+			}
 			a.mu.Lock()
 			buf, ok := a.cells[cell]
 			if !ok {
@@ -173,7 +176,10 @@ func (a *Aggregator) snapshot(cutoff time.Time) []types.CellState {
 		}
 
 		ratio := computeRatio(len(buf.demand), len(buf.supply))
-		center := h3.CellToLatLng(cell)
+		center, err := h3.CellToLatLng(cell)
+		if err != nil {
+			continue
+		}
 
 		states = append(states, types.CellState{
 			Index:    cell.String(),
