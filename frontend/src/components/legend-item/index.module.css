@@ -2,7 +2,6 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 11px;
 }
 .legend-item__swatch {
   width: 10px;

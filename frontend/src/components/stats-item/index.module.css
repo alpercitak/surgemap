@@ -4,15 +4,13 @@
   gap: 2px;
 }
 .stats-item__label {
-  font-size: 10px;
-  color: #505870;
+  color: var(--color-text-tertiary);
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
 .stats-item__value {
   font-size: 18px;
   font-weight: 500;
-  color: #e8eaf0;
   line-height: 1;
 }
 .stats-item__value--idle {

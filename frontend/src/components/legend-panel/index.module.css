@@ -11,6 +11,6 @@
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #505870;
+  color: var(--color-text-tertiary);
   margin-bottom: 4px;
 }

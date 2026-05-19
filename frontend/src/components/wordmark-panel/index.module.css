@@ -8,9 +8,8 @@
   gap: 12px;
 }
 .wordmark-panel__logo {
-  font-family: 'Syne', sans-serif;
+  font-family: var(--font-serif);
   font-weight: 800;
-  font-size: 18;
-  color: '#e8eaf0';
+  font-size: 18px;
   letter-spacing: '-0.03em';
 }

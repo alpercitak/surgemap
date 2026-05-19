@@ -23,20 +23,15 @@ export const formatTooltip = (object: CellState) => {
 
   return {
     html: `
-      <div style="font-family: 'DM Mono', monospace; font-size: 12px; line-height: 1.6;">
-        <div style="color: ${getModifierColor(modifier)}">
-          ${modifier.toFixed(2)}x surge
-        </div>
-        <div>
-          ${demand} demand / ${supply} supply
-        </div>
+      <div class="sm-tooltip">
+        <div style="color: ${getModifierColor(modifier)}">${modifier.toFixed(1)}x surge</div>
+        <div>${demand} demand / ${supply} supply</div>
       </div>
     `,
     style: {
-      background: '#0d1117',
-      border: '1px solid #222',
-      borderRadius: '4px',
-      padding: '8px 10px',
+      background: 'var(--card-background)',
+      border: 'var(--card-border)',
+      borderRadius: 'var(--card-border-radius)',
     },
   };
 };

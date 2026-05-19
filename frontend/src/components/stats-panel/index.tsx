@@ -14,7 +14,7 @@ export const StatsPanel = ({ stats }: StatsPanelProps) => {
       <StatsItem label="surging" value={stats.surging} modifier="surge" />
       <StatsItem
         label="peak modifier"
-        value={`${stats.maxMod.toFixed(2)}x`}
+        value={`${stats.maxMod.toFixed(1)}x`}
         modifier={stats.maxMod > 2 ? 'peak' : 'building'}
       />
       <StatsItem label="demand / supply" value={`${stats.totalDemand} / ${stats.totalSupply}`} />
