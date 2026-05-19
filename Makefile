@@ -1,13 +1,13 @@
-.PHONY: run-backend run-frontend run build-backend build-frontend build
+.PHONY: dev-backend dev-frontend dev build-backend build-frontend build
 
-run-backend:
+dev-backend:
 	cd backend && go mod tidy && go run ./cmd/main.go
 
-run-frontend:
+dev-frontend:
 	cd frontend && bun install && bun dev
 
-run:
-	concurrently "make run-backend" "make run-frontend"
+dev:
+	concurrently "make dev-backend" "make dev-frontend"
 
 build-backend:
 	cd backend && go build -o bin/surgemap ./cmd/main.go

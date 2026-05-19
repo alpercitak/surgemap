@@ -1,13 +1,5 @@
-export type CellState = {
-  index: string;
-  lat: number;
-  lng: number;
-  demand: number;
-  supply: number;
-  ratio: number;
-  modifier: number;
-};
+import type { Cells } from '@/types';
 
 export type SurgeMapProps = {
-  cells: Array<CellState>;
+  cells: Cells;
 };

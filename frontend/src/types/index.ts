@@ -3,8 +3,12 @@ export type Modifier = 'idle' | 'low' | 'building' | 'surge' | 'peak';
 export type Status = 'live' | 'connecting' | 'reconnecting';
 
 export type Cell = {
+  index: string;
+  lat: number;
+  lng: number;
   demand: number;
   supply: number;
+  ratio: number;
   modifier: number;
 };
 
