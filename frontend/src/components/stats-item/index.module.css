@@ -1,0 +1,32 @@
+.stats-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.stats-item__label {
+  font-size: 10px;
+  color: #505870;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.stats-item__value {
+  font-size: 18px;
+  font-weight: 500;
+  color: #e8eaf0;
+  line-height: 1;
+}
+.stats-item__value--idle {
+  color: var(--color-modifier-idle);
+}
+.stats-item__value--low {
+  color: var(--color-modifier-low);
+}
+.stats-item__value--building {
+  color: var(--color-modifier-building);
+}
+.stats-item__value--surge {
+  color: var(--color-modifier-surge);
+}
+.stats-item__value--peak {
+  color: var(--color-modifier-peak);
+}

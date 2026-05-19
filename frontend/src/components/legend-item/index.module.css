@@ -1,0 +1,27 @@
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+}
+.legend-item__swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+.legend-item__swatch--idle {
+  background: var(--color-modifier-idle);
+}
+.legend-item__swatch--low {
+  background: var(--color-modifier-low);
+}
+.legend-item__swatch--building {
+  background: var(--color-modifier-building);
+}
+.legend-item__swatch--surge {
+  background: var(--color-modifier-surge);
+}
+.legend-item__swatch--peak {
+  background: var(--color-modifier-peak);
+}

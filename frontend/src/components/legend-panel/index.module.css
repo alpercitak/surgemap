@@ -1,0 +1,16 @@
+.legend-panel {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.legend-panel__title {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #505870;
+  margin-bottom: 4px;
+}

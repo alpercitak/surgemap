@@ -1,3 +1,10 @@
+:root {
+  --color-modifier-idle: #0064dc;
+  --color-modifier-low: #00b4b4;
+  --color-modifier-building: #fad200;
+  --color-modifier-surge: #ff7800;
+  --color-modifier-peak: #e61e50;
+}
 *,
 *::before,
 *::after {

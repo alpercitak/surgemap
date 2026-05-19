@@ -1,16 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
+import type { Cells, Status } from '@/types';
 
 const WS_URL = import.meta.env.VITE_WS_URL || 'ws://localhost:8080/ws';
 const RECONNECT_DELAY = 2000;
 
 export const useWebSocket = () => {
-  const [cells, setCells] = useState([]);
-  const [status, setStatus] = useState('connecting'); // 'connecting' | 'live' | 'reconnecting'
-  const wsRef = useRef(null);
-  const retryRef = useRef(null);
+  const [cells, setCells] = useState<Cells>([]);
+  const [status, setStatus] = useState<Status>('connecting');
+  const wsRef = useRef<WebSocket | null>(null);
+  const retryRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    function connect() {
+    const connect = () => {
       setStatus((prev) => (prev === 'live' ? 'reconnecting' : 'connecting'));
 
       const ws = new WebSocket(WS_URL);
@@ -41,7 +42,7 @@ export const useWebSocket = () => {
       ws.onerror = () => {
         ws.close();
       };
-    }
+    };
 
     connect();
 

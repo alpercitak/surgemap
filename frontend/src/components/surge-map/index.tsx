@@ -1,31 +1,14 @@
 import { useMemo } from 'react';
 import { Map } from 'react-map-gl/maplibre';
-import DeckGL, { type DeckGLProps } from '@deck.gl/react';
-import { HexagonLayer } from '@deck.gl/aggregation-layers';
+import DeckGL from '@deck.gl/react';
+import { HexagonLayer, type HexagonLayerProps } from '@deck.gl/aggregation-layers';
+import { COLOR_RANGE, INITIAL_VIEW, MAP_STYLE } from './constants';
 
-// Amsterdam center
-const INITIAL_VIEW: DeckGLProps['initialViewState'] = {
-  longitude: 4.9003,
-  latitude: 52.3676,
-  zoom: 11.5,
-  pitch: 45,
-  bearing: -10,
-} as const;
+type SurgeMapProps = {
+  cells: HexagonLayerProps['data'];
+};
 
-// Surge color ramp: blue (low) → amber → red (surge)
-// Each entry: [r, g, b]
-const COLOR_RANGE = [
-  [0, 100, 220], // idle — cool blue
-  [0, 180, 180], // slight demand — teal
-  [250, 210, 0], // building — amber
-  [255, 120, 0], // surge — orange
-  [230, 30, 30], // high surge — red
-  [180, 0, 80], // peak surge — deep red
-];
-
-const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json';
-
-export const SurgeMap = ({ cells }) => {
+export const SurgeMap = ({ cells }: SurgeMapProps) => {
   const layer = useMemo(
     () =>
       new HexagonLayer({
@@ -98,9 +81,9 @@ const formatTooltip = (object) => {
   };
 };
 
-const modifierColor = (modifier) => {
-  if (modifier >= 2.5) return '#e61e50';
-  if (modifier >= 2.0) return '#ff7800';
-  if (modifier >= 1.5) return '#fad200';
-  return '#00b4b4';
+const modifierColor = (modifier: number) => {
+  if (modifier >= 2.5) return 'var(--color-modifier-peak)';
+  if (modifier >= 2.0) return 'var(--color-modifier-surge)';
+  if (modifier >= 1.5) return 'var(--color-modifier-building)';
+  return 'var(--color-modifier-low)';
 };

@@ -1,22 +1,32 @@
+import { useMemo } from 'react';
+import { SurgeMap } from '@/components/surge-map';
 import { useWebSocket } from '@/hooks/websocket';
-import { SurgeMap } from '@/components/surgemap';
-import { Hud } from '@/components/hud';
+import { LegendPanel } from '@/components/legend-panel';
+import { StatsPanel } from '@/components/stats-panel';
+import { WordmarkPanel } from '@/components/wordmark-panel';
+import type { Stats } from '@/types';
+import styles from './index.module.css';
 
 export const App = () => {
   const { cells, status } = useWebSocket();
 
-  return (
-    <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
-      <SurgeMap cells={cells} />
-      <Hud cells={cells} status={status} />
+  const stats = useMemo<Stats>(() => {
+    if (!cells.length) {
+      return null;
+    }
+    const surging = cells.filter((c) => c.modifier > 1.0).length;
+    const maxMod = Math.max(...cells.map((c) => c.modifier));
+    const totalDemand = cells.reduce((s, c) => s + c.demand, 0);
+    const totalSupply = cells.reduce((s, c) => s + c.supply, 0);
+    return { surging, maxMod, totalDemand, totalSupply, total: cells.length };
+  }, [cells]);
 
-      {/* Pulse animation for the status dot */}
-      <style>{`
-        @keyframes pulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.4; }
-        }
-      `}</style>
+  return (
+    <div className={styles['app']}>
+      <SurgeMap cells={cells} />
+      <WordmarkPanel status={status} />
+      {stats && <StatsPanel stats={stats} />}
+      <LegendPanel />
     </div>
   );
 };
