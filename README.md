@@ -135,10 +135,19 @@ Production load (millions of events/min, thousands of WebSocket clients):
 4. WebSocket hub tier subscribes to relevant topics, filters by connected client viewport
 5. Ring buffers move to Redis sorted sets, aggregator shards become stateless, horizontally scalable
 
-```
-Events → Kafka (partitioned by H3 parent) → Aggregator shards → Redis sorted sets
-                                                                        │
-WS clients ← Hub tier (viewport filter) ←── pub/sub subscription ──────┘
+```mermaid
+flowchart LR
+    E["Events"]
+    K["Kafka
+    partitioned by H3 parent"]
+    AS["Aggregator shards"]
+    R["Redis sorted sets"]
+    P["pub/sub subscription"]
+    H["Hub tier
+    viewport filter"]
+    WS["WS clients"]
+
+    E --> K --> AS --> R --> P --> H --> WS
 ```
 
 ## License
