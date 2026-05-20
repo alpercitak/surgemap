@@ -6,7 +6,7 @@
 ![Build](https://img.shields.io/github/actions/workflow/status/alpercitak/surgemap/build.yaml?style=flat-square&label=&color=2ea44f)
 ![License](https://img.shields.io/badge/MIT-2ea44f?style=flat-square)
 
-Real-time supply/demand pricing heatmap engine for spatially distributed marketplaces for ride-hailing, food delivery, courier services, or any platform where demand and supply cluster geographically.
+Real-time supply/demand pricing heatmap engine for spatially distributed marketplaces: ride-hailing, food delivery, courier services, or any platform where demand and supply cluster geographically.
 
 Synthetic events flow through a Go aggregation pipeline, get bucketed into H3 hexagonal cells, and stream over WebSocket to a 3D deck.gl map, updating every second.
 
@@ -43,7 +43,7 @@ Environment variables:
 ## Architecture
 
 ```mermaid
-flowchart TD
+flowchart LR
     G["**Generator**
     demand: hotspot-weighted
     supply: uniform city spread"]
@@ -107,8 +107,8 @@ Resolution 7 is correct for this synthetic load (8 events/sec citywide). At reso
 
 ### Window Size
 
-| Window | Reactivity | Noise |
-|---|---|---|
+| Window | Reactivity | Noise | Outcome |
+|---|---|---|---|
 | 10s | Very fast | High | single burst spikes ratio |
 | 30s | Fast | Moderate | **default** |
 | 5min | Slow | Low | misses short demand spikes |
