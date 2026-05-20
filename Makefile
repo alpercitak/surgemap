@@ -6,6 +6,9 @@ dev-backend:
 dev-frontend:
 	cd frontend && bun install && bun dev
 
+dev-frontend-demo:
+	cd frontend && bun install && VITE_RUNTIME_MODE=demo bun dev	
+
 dev:
 	concurrently "make dev-backend" "make dev-frontend"
 

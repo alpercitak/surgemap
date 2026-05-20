@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
-import type { Cells, Status } from '@/types';
+import type { Cells, DataHook, Status } from '@/types';
 
 const WS_URL = import.meta.env.VITE_WS_URL || 'ws://localhost:8080/ws';
 const RECONNECT_DELAY = 2000;
 
-export const useWebSocket = () => {
+export const useWebSocket = (): DataHook => {
   const [cells, setCells] = useState<Cells>([]);
   const [status, setStatus] = useState<Status>('connecting');
   const wsRef = useRef<WebSocket | null>(null);

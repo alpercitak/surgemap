@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { SurgeMap } from '@/components/surge-map';
-import { useWebSocket } from '@/hooks/websocket';
+import { useData } from '@/hooks/data';
 import { LegendPanel } from '@/components/legend-panel';
 import { StatsPanel } from '@/components/stats-panel';
 import { WordmarkPanel } from '@/components/wordmark-panel';
@@ -8,7 +8,7 @@ import type { Stats } from '@/types';
 import styles from './index.module.css';
 
 export const App = () => {
-  const { cells, status } = useWebSocket();
+  const { cells, status } = useData();
 
   const stats = useMemo<Stats>(() => {
     if (!cells.length) {

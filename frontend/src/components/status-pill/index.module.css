@@ -35,6 +35,13 @@
   background: #ff7800;
   box-shadow: 0 0 4px #ff7800;
 }
+.status-pill--demo {
+  border-color: #ffffffcc;
+}
+.status-pill--demo .status-pill__dot {
+  background: #ffffffcc;
+  box-shadow: 0 0 4px #ffffffcc;
+}
 @keyframes pulse {
   0%,
   100% {

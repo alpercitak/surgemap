@@ -1,6 +1,6 @@
 export type Modifier = 'idle' | 'low' | 'building' | 'surge' | 'peak';
 
-export type Status = 'live' | 'connecting' | 'reconnecting';
+export type Status = 'live' | 'connecting' | 'reconnecting' | 'demo';
 
 export type Cell = {
   index: string;
@@ -20,4 +20,9 @@ export type Stats = {
   totalDemand: number;
   totalSupply: number;
   total: number;
+};
+
+export type DataHook = {
+  cells: Cells;
+  status: Status;
 };

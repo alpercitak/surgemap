@@ -10,6 +10,7 @@ const LABEL_MAP = {
   live: 'live',
   connecting: 'connecting',
   reconnecting: 'reconnecting',
+  demo: 'demo',
 } as const satisfies Record<Status, string>;
 
 export const StatusPill = ({ status }: StatusPillProps) => {
