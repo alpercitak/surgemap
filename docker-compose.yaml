@@ -1,0 +1,23 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ./Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      PORT: 8080
+      H3_RESOLUTION: 7
+      WINDOW_SECONDS: 30
+      DEMAND_RATE: 8.0
+      SUPPLY_RATE: 5.0
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:80"
+    depends_on:
+      backend:
+        condition: service_started

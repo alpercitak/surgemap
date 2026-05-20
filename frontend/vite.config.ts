@@ -8,7 +8,6 @@ const FONT_URL = 'https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&
 export default defineConfig({
   plugins: [react(), webfontDownload(FONT_URL)],
   server: {
-    port: 3000,
     proxy: {
       '/ws': {
         target: 'ws://localhost:8080',

@@ -18,3 +18,9 @@ build-frontend:
 build:
 	make build-backend
 	make build-frontend
+
+up:
+	docker-compose up --build --remove-orphans -d
+
+down:
+	docker-compose down
