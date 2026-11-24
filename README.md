@@ -40,6 +40,8 @@ Environment variables:
 | `DEMAND_RATE` | `8.0` | Synthetic demand events/sec |
 | `SUPPLY_RATE` | `5.0` | Synthetic supply events/sec |
 
+Invalid values stop the backend at startup.
+
 ## Architecture
 
 ```mermaid
