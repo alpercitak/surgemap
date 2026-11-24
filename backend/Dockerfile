@@ -15,5 +15,6 @@ FROM debian:bookworm-slim
 WORKDIR /app
 COPY --from=builder /app/bin/surgemap .
 
+USER nobody
 EXPOSE 8080
 CMD ["./surgemap"]
