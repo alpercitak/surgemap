@@ -28,6 +28,9 @@ make dev
 
 make up
 # docker deployment
+
+make lint && make test
+# go vet, biome, tsc; go tests with -race
 ```
 
 Environment variables:

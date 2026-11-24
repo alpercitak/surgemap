@@ -22,7 +22,7 @@ jobs:
         with:
           go-version-file: backend/go.mod
           cache: true
-          cache-dependency-path: backend/go.mod
+          cache-dependency-path: backend/go.sum
 
       - uses: oven-sh/setup-bun@v2
         with:
@@ -36,5 +36,7 @@ jobs:
             ${{ runner.os }}-bun-
 
       - run: make lint
+
+      - run: make test
 
       - run: make build
