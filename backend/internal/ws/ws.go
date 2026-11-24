@@ -5,10 +5,18 @@ import (
 	"log"
 	"net/http"
 	"sync"
+	"time"
 
 	"github.com/gorilla/websocket"
 
 	"surgemap/internal/types"
+)
+
+const (
+	writeWait      = 10 * time.Second
+	pongWait       = 60 * time.Second
+	pingPeriod     = pongWait * 9 / 10
+	maxMessageSize = 4096
 )
 
 var upgrader = websocket.Upgrader{
@@ -79,7 +87,7 @@ func (h *Hub) ServeWS(w http.ResponseWriter, r *http.Request) {
 
 	log.Printf("ws: client connected (%d total)", h.clientCount())
 
-	go c.writePump(h)
+	go c.writePump()
 	c.readPump(h) // blocks until client disconnects
 }
 
@@ -89,10 +97,18 @@ func (c *client) readPump(h *Hub) {
 	defer func() {
 		h.mu.Lock()
 		delete(h.clients, c)
+		// Safe: Broadcast only sends while holding the read lock, and c is no longer registered
+		close(c.send)
 		h.mu.Unlock()
 		c.conn.Close()
 		log.Printf("ws: client disconnected (%d total)", h.clientCount())
 	}()
+
+	c.conn.SetReadLimit(maxMessageSize)
+	c.conn.SetReadDeadline(time.Now().Add(pongWait))
+	c.conn.SetPongHandler(func(string) error {
+		return c.conn.SetReadDeadline(time.Now().Add(pongWait))
+	})
 
 	for {
 		_, _, err := c.conn.ReadMessage()
@@ -103,12 +119,31 @@ func (c *client) readPump(h *Hub) {
 	}
 }
 
-// writePump drains the send channel and writes to the WebSocket connection
-func (c *client) writePump(h *Hub) {
-	for data := range c.send {
-		if err := c.conn.WriteMessage(websocket.TextMessage, data); err != nil {
-			log.Printf("ws: write error: %v", err)
-			return
+// writePump drains the send channel and pings the client; it exits when
+// readPump closes c.send or a write fails (closing the conn unblocks readPump)
+func (c *client) writePump() {
+	ticker := time.NewTicker(pingPeriod)
+	defer func() {
+		ticker.Stop()
+		c.conn.Close()
+	}()
+
+	for {
+		select {
+		case data, ok := <-c.send:
+			if !ok {
+				return
+			}
+			c.conn.SetWriteDeadline(time.Now().Add(writeWait))
+			if err := c.conn.WriteMessage(websocket.TextMessage, data); err != nil {
+				log.Printf("ws: write error: %v", err)
+				return
+			}
+		case <-ticker.C:
+			c.conn.SetWriteDeadline(time.Now().Add(writeWait))
+			if err := c.conn.WriteMessage(websocket.PingMessage, nil); err != nil {
+				return
+			}
 		}
 	}
 }
