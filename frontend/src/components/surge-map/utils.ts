@@ -1,14 +1,12 @@
 import { ColumnLayer } from '@deck.gl/layers';
-import { COLOR_RANGE } from './constants';
-import type { Cell } from '@/types';
+import type { Cell, Modifier } from '@/types';
+import { MODIFIER_LEVELS } from './constants';
 
-export const getModifierColorRGB = (modifier: number) => {
-  if (modifier >= 2.5) return COLOR_RANGE[5];
-  if (modifier >= 2.0) return COLOR_RANGE[4];
-  if (modifier >= 1.5) return COLOR_RANGE[3];
-  if (modifier >= 1.0) return COLOR_RANGE[2];
-  return COLOR_RANGE[1];
-};
+const findLevel = (modifier: number) => MODIFIER_LEVELS.find((l) => modifier >= l.min);
+
+export const getModifierLevel = (modifier: number): Modifier => findLevel(modifier).level;
+
+export const getModifierColorRGB = (modifier: number) => findLevel(modifier).rgb;
 
 export const getModifierColor = (modifier: number) => {
   const [r, g, b] = getModifierColorRGB(modifier);

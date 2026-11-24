@@ -1,5 +1,6 @@
 import { Panel } from '@/components/panel';
 import { StatsItem } from '@/components/stats-item';
+import { getModifierLevel } from '@/components/surge-map/utils';
 import type { Stats } from '@/types';
 import styles from './index.module.css';
 
@@ -15,7 +16,7 @@ export const StatsPanel = ({ stats }: StatsPanelProps) => {
       <StatsItem
         label="peak modifier"
         value={`${stats.maxMod.toFixed(1)}x`}
-        modifier={stats.maxMod > 2 ? 'peak' : 'building'}
+        modifier={getModifierLevel(stats.maxMod)}
       />
       <StatsItem label="demand / supply" value={`${stats.totalDemand} / ${stats.totalSupply}`} />
     </Panel>
