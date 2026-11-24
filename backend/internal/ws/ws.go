@@ -44,11 +44,8 @@ func NewHub() *Hub {
 
 // Broadcast fans out a cell state snapshot to all connected clients.
 // JSON marshaling happens once here, not per client.
+// Empty snapshots are sent too, so clients clear expired cells.
 func (h *Hub) Broadcast(states []types.CellState) {
-	if len(states) == 0 {
-		return
-	}
-
 	data, err := json.Marshal(states)
 	if err != nil {
 		log.Printf("ws: marshal error: %v", err)
