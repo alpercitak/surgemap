@@ -118,25 +118,29 @@ func (a *Aggregator) ingest() {
 		case <-a.stopCh:
 			return
 		case ev := <-a.in:
-			cell, err := h3.LatLngToCell(h3.LatLng{Lat: ev.Lat, Lng: ev.Lng}, a.cfg.Resolution)
-			if err != nil {
-				continue
-			}
-			a.mu.Lock()
-			buf, ok := a.cells[cell]
-			if !ok {
-				buf = &cellBuffer{}
-				a.cells[cell] = buf
-			}
-			ts := timestampedEvent{t: ev.Time}
-			switch ev.Type {
-			case types.EventDemand:
-				buf.demand = append(buf.demand, ts)
-			case types.EventSupply:
-				buf.supply = append(buf.supply, ts)
-			}
-			a.mu.Unlock()
+			a.add(ev)
 		}
+	}
+}
+
+func (a *Aggregator) add(ev types.Event) {
+	cell, err := h3.LatLngToCell(h3.LatLng{Lat: ev.Lat, Lng: ev.Lng}, a.cfg.Resolution)
+	if err != nil {
+		return
+	}
+	a.mu.Lock()
+	defer a.mu.Unlock()
+	buf, ok := a.cells[cell]
+	if !ok {
+		buf = &cellBuffer{}
+		a.cells[cell] = buf
+	}
+	ts := timestampedEvent{t: ev.Time}
+	switch ev.Type {
+	case types.EventDemand:
+		buf.demand = append(buf.demand, ts)
+	case types.EventSupply:
+		buf.supply = append(buf.supply, ts)
 	}
 }
 
