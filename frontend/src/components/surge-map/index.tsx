@@ -1,8 +1,8 @@
-import { Map } from 'react-map-gl/maplibre';
 import DeckGL from '@deck.gl/react';
+import { Map as MapView } from 'react-map-gl/maplibre';
 import { INITIAL_VIEW, MAP_STYLE } from './constants';
-import { formatTooltip, getLayer } from './utils';
 import type { SurgeMapProps } from './types';
+import { formatTooltip, getLayer } from './utils';
 
 export const SurgeMap = ({ cells }: SurgeMapProps) => {
   const layer = getLayer(cells);
@@ -14,7 +14,7 @@ export const SurgeMap = ({ cells }: SurgeMapProps) => {
       layers={[layer]}
       getTooltip={({ object }) => object && formatTooltip(object)}
     >
-      <Map mapStyle={MAP_STYLE} />
+      <MapView mapStyle={MAP_STYLE} />
     </DeckGL>
   );
 };

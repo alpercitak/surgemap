@@ -1,7 +1,7 @@
-import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite';
 import webfontDownload from 'vite-plugin-webfont-dl';
-import { resolve } from 'path';
+import { resolve } from 'node:path';
 
 const FONT_URL = 'https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@700;800&display=swap';
 

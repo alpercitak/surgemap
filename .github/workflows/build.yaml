@@ -35,4 +35,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-bun-
 
+      - run: make lint
+
       - run: make build

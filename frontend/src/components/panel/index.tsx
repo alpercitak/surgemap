@@ -6,5 +6,5 @@ type PanelProps = {
 };
 
 export const Panel = ({ children, className }: PanelProps) => {
-  return <div className={`${styles['panel']} ${className ?? ''}`}>{children}</div>;
+  return <div className={`${styles.panel} ${className ?? ''}`}>{children}</div>;
 };

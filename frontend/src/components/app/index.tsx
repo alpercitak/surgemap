@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
-import { SurgeMap } from '@/components/surge-map';
-import { useData } from '@/hooks/data';
 import { LegendPanel } from '@/components/legend-panel';
 import { StatsPanel } from '@/components/stats-panel';
+import { SurgeMap } from '@/components/surge-map';
 import { WordmarkPanel } from '@/components/wordmark-panel';
+import { useData } from '@/hooks/data';
 import type { Stats } from '@/types';
 import styles from './index.module.css';
 
@@ -22,7 +22,7 @@ export const App = () => {
   }, [cells]);
 
   return (
-    <div className={styles['app']}>
+    <div className={styles.app}>
       <SurgeMap cells={cells} />
       <WordmarkPanel status={status} />
       {stats && <StatsPanel stats={stats} />}

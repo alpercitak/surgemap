@@ -9,8 +9,8 @@
   --color-modifier-surge: #ff7800;
   --color-modifier-peak: #e61e50;
 
-  --font-serif: 'Syne', sans-serif;
-  --font-mono: 'DM Mono', monospace;
+  --font-serif: "Syne", sans-serif;
+  --font-mono: "DM Mono", monospace;
 
   --card-background: rgba(8, 12, 16, 0.82);
   --card-border: 1px solid rgba(255, 255, 255, 0.07);

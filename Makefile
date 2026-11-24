@@ -1,4 +1,4 @@
-.PHONY: dev-backend dev-frontend dev build-backend build-frontend build
+.PHONY: dev-backend dev-frontend dev build-backend build-frontend build lint
 
 dev-backend:
 	cd backend && go mod tidy && go run ./cmd/main.go
@@ -17,6 +17,9 @@ build-backend:
 
 build-frontend:
 	cd frontend && bun install && bun run build
+
+lint:
+	cd frontend && bun install && bun run lint
 
 build:
 	make build-backend
