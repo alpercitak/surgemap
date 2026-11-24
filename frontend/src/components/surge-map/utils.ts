@@ -1,6 +1,6 @@
 import { ColumnLayer } from '@deck.gl/layers';
 import { COLOR_RANGE } from './constants';
-import type { CellState } from './types';
+import type { Cell } from '@/types';
 
 export const getModifierColorRGB = (modifier: number) => {
   if (modifier >= 2.5) return COLOR_RANGE[5];
@@ -15,7 +15,7 @@ export const getModifierColor = (modifier: number) => {
   return `rgb(${r},${g},${b})`;
 };
 
-export const formatTooltip = (object: CellState) => {
+export const formatTooltip = (object: Cell) => {
   if (!object) {
     return null;
   }
@@ -36,8 +36,8 @@ export const formatTooltip = (object: CellState) => {
   };
 };
 
-export const getLayer = (cells: Array<CellState>) =>
-  new ColumnLayer<CellState>({
+export const getLayer = (cells: Array<Cell>) =>
+  new ColumnLayer<Cell>({
     id: 'surge',
     data: cells,
     getPosition: (d) => [d.lng, d.lat],

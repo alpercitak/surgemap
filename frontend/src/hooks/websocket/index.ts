@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { Cells, DataHook, Status } from '@/types';
 
-const WS_URL = import.meta.env.VITE_WS_URL || 'ws://localhost:8080/ws';
+const WS_URL = import.meta.env.VITE_WS_URL || `${location.protocol === 'https:' ? 'wss' : 'ws'}://${location.host}/ws`;
 const RECONNECT_DELAY = 2000;
 
 export const useWebSocket = (): DataHook => {
@@ -48,7 +48,11 @@ export const useWebSocket = (): DataHook => {
 
     return () => {
       clearTimeout(retryRef.current);
-      wsRef.current?.close();
+      if (wsRef.current) {
+        // Detach before closing so onclose doesn't schedule a reconnect after unmount
+        wsRef.current.onclose = null;
+        wsRef.current.close();
+      }
     };
   }, []);
 
