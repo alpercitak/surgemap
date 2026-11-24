@@ -20,6 +20,9 @@ export default defineConfig({
       '@': resolve(__dirname, './src'),
     },
   },
+  worker: {
+    format: 'es',
+  },
   build: {
     chunkSizeWarningLimit: 1200,
     rolldownOptions: {
