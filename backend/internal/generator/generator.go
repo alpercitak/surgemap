@@ -42,9 +42,9 @@ type Config struct {
 
 func DefaultConfig() Config {
 	return Config{
-		DemandRate:   8.0,
-		SupplyRate:   5.0, // supply < demand → surge in hot areas
-		SpreadMeters: 600,
+		DemandRate:   12.0,
+		SupplyRate:   5.0,  // supply < demand → surge in hot areas
+		SpreadMeters: 1500, // spreads demand over neighbouring cells without merging central hotspots
 		Seed:         0,
 	}
 }

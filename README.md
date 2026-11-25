@@ -40,7 +40,7 @@ Environment variables:
 | `PORT` | `8080` | Backend port |
 | `H3_RESOLUTION` | `7` | H3 cell resolution (7–9) |
 | `WINDOW_SECONDS` | `30` | Sliding window duration |
-| `DEMAND_RATE` | `8.0` | Synthetic demand events/sec |
+| `DEMAND_RATE` | `12.0` | Synthetic demand events/sec |
 | `SUPPLY_RATE` | `5.0` | Synthetic supply events/sec |
 
 Invalid values stop the backend at startup.
@@ -108,7 +108,7 @@ Chose WebSocket over SSE for the bidirectional upgrade path, future versions can
 | Active cells (Amsterdam) | ~60 | ~3,000 |
 | Events for stable ratio | ~10 / window | ~500 / window |
 
-Resolution 7 is correct for this synthetic load (8 events/sec citywide). At resolution 9, most cells see 0–1 events per window, ratios are statistically meaningless. Resolution 9 requires production-scale event volumes (thousands/sec) to be useful.
+Resolution 7 is correct for this synthetic load (12 demand events/sec citywide). At resolution 9, most cells see 0–1 events per window, ratios are statistically meaningless. Resolution 9 requires production-scale event volumes (thousands/sec) to be useful.
 
 ### Window Size
 
