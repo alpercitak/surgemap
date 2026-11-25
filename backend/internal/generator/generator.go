@@ -3,6 +3,7 @@ package generator
 import (
 	"math"
 	"math/rand"
+	"sync"
 	"time"
 
 	"surgemap/internal/types"
@@ -52,6 +53,7 @@ type Generator struct {
 	cfg    Config
 	out    chan<- types.Event
 	rng    *rand.Rand
+	rngMu  sync.Mutex // rand.Rand is not safe for concurrent use
 	stopCh chan struct{}
 }
 
@@ -90,12 +92,7 @@ func (g *Generator) emit(et types.EventType, rate float64) {
 		case <-g.stopCh:
 			return
 		case t := <-ticker.C:
-			var lat, lng float64
-			if et == types.EventDemand {
-				lat, lng = g.hotspotPoint()
-			} else {
-				lat, lng = g.uniformPoint()
-			}
+			lat, lng := g.point(et)
 			g.out <- types.Event{
 				Type: et,
 				Lat:  lat,
@@ -104,6 +101,15 @@ func (g *Generator) emit(et types.EventType, rate float64) {
 			}
 		}
 	}
+}
+
+func (g *Generator) point(et types.EventType) (float64, float64) {
+	g.rngMu.Lock()
+	defer g.rngMu.Unlock()
+	if et == types.EventDemand {
+		return g.hotspotPoint()
+	}
+	return g.uniformPoint()
 }
 
 // hotspotPoint picks a hotspot weighted by demand, then adds Gaussian noise
