@@ -55,7 +55,7 @@ flowchart LR
 
     A["**Aggregator**
     H3 index → cell buffer
-    ring buffer per cell
+    sliding window per cell
     ratio = D/S per tick"]
 
     W["**WS Hub**
@@ -78,7 +78,7 @@ Two goroutines emit synthetic events at configurable rates:
 
 ### Aggregator
 
-Each event is indexed into an H3 cell via `h3.LatLngToCell`. A per-cell ring buffer holds timestamped events within the configured window. Every second:
+Each event is indexed into an H3 cell via `h3.LatLngToCell`. A per-cell sliding window (time-ordered slice, pruned from the front) holds timestamped events within the configured window. Every second:
 
 1. Prune events older than window
 2. Compute `ratio = demand / supply` per cell
@@ -138,7 +138,7 @@ Production load (millions of events/min, thousands of WebSocket clients):
 2. Consistent hashing on cell index for shard assignment; virtual nodes for rebalance
 3. Aggregator shards publish to Kafka (one topic per shard, partitioned by H3 index)
 4. WebSocket hub tier subscribes to relevant topics, filters by connected client viewport
-5. Ring buffers move to Redis sorted sets, aggregator shards become stateless, horizontally scalable
+5. Per-cell windows move to Redis sorted sets, aggregator shards become stateless, horizontally scalable
 
 ```mermaid
 flowchart LR
