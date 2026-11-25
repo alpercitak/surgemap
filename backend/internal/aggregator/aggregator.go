@@ -25,22 +25,19 @@ type SurgeAlgorithm interface {
 	Modifier(ratio float64) float64
 }
 
-// LinearSurge is the default — simple piecewise linear mapping.
-// ratio 0–1.0 → 1.0x, 1.0–2.0 → 1.0–2.0x, >2.0 → capped at 3.0x
-type LinearSurge struct{}
+// LogSurge is the default: +0.5x per doubling of demand/supply.
+// ratio ≤1 → 1.0x, 2 → 1.5x, 4 → 2.0x, ≥16 → capped at 3.0x.
+// Hotspot ratios span roughly 1–30, so a log scale keeps the mid levels visible.
+type LogSurge struct{}
 
-func (LinearSurge) Modifier(ratio float64) float64 {
-	switch {
-	case ratio <= 1.0:
+func (LogSurge) Modifier(ratio float64) float64 {
+	if ratio <= 1.0 {
 		return 1.0
-	case ratio >= 2.0:
-		return 3.0
-	default:
-		return 1.0 + (ratio-1.0)*2.0
 	}
+	return math.Min(3.0, 1.0+math.Log2(ratio)/2)
 }
 
-// timestampedEvent wraps an event time for ring buffer expiry
+// timestampedEvent wraps an event time for window expiry
 type timestampedEvent struct {
 	t time.Time
 }
@@ -74,7 +71,7 @@ func DefaultConfig() Config {
 	return Config{
 		Resolution: DefaultResolution,
 		Window:     DefaultWindow,
-		Algorithm:  LinearSurge{},
+		Algorithm:  LogSurge{},
 	}
 }
 
@@ -198,16 +195,10 @@ func (a *Aggregator) snapshot(cutoff time.Time) []types.CellState {
 	return states
 }
 
-// computeRatio returns demand/supply ratio.
-// Pure demand with no supply → ratio 2.0 (immediate surge signal, not infinity).
-// Pure supply with no demand → ratio 0.0.
+// computeRatio returns demand/supply ratio, rounded to 2 decimals.
+// Zero supply counts as 1, so demand-only cells scale with their demand
+// instead of jumping to a fixed value (and never divide by zero).
 func computeRatio(demand, supply int) float64 {
-	if supply == 0 && demand == 0 {
-		return 1.0
-	}
-	if supply == 0 {
-		return 2.0 // cap — avoids Inf in the modifier
-	}
-	ratio := float64(demand) / float64(supply)
-	return math.Round(ratio*100) / 100 // 2 decimal places
+	ratio := float64(demand) / float64(max(supply, 1))
+	return math.Round(ratio*100) / 100
 }

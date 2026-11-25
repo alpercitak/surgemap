@@ -87,7 +87,7 @@ Each event is indexed into an H3 cell via `h3.LatLngToCell`. A per-cell ring buf
 
 The `SurgeAlgorithm` interface is intentionally swappable.
 
-`LinearSurge` is the default, replaceable with an ML-based scorer without touching aggregator logic.
+`LogSurge` is the default (+0.5x per doubling of demand/supply: 2 → 1.5x, 4 → 2.0x, ≥16 → 3.0x cap), replaceable with an ML-based scorer without touching aggregator logic.
 
 ### WebSocket Hub
 

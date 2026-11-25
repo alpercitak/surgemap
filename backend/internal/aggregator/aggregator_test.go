@@ -7,10 +7,10 @@ import (
 	"surgemap/internal/types"
 )
 
-func TestLinearSurge(t *testing.T) {
-	cases := map[float64]float64{0: 1, 1: 1, 1.25: 1.5, 1.5: 2, 2: 3, 10: 3}
+func TestLogSurge(t *testing.T) {
+	cases := map[float64]float64{0: 1, 1: 1, 2: 1.5, 4: 2, 16: 3, 100: 3}
 	for ratio, want := range cases {
-		if got := (LinearSurge{}).Modifier(ratio); got != want {
+		if got := (LogSurge{}).Modifier(ratio); got != want {
 			t.Errorf("Modifier(%v) = %v, want %v", ratio, got, want)
 		}
 	}
@@ -21,8 +21,8 @@ func TestComputeRatio(t *testing.T) {
 		demand, supply int
 		want           float64
 	}{
-		{0, 0, 1},
-		{3, 0, 2},
+		{0, 0, 0},
+		{3, 0, 3},
 		{0, 4, 0},
 		{2, 3, 0.67},
 	}
