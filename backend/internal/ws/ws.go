@@ -19,12 +19,9 @@ const (
 	maxMessageSize = 4096
 )
 
-var upgrader = websocket.Upgrader{
-	CheckOrigin: func(r *http.Request) bool {
-		// Allow all origins in dev — tighten for production
-		return true
-	},
-}
+// Zero-value CheckOrigin rejects cross-origin browser requests; the frontend
+// reaches /ws same-origin through the Vite or nginx proxy.
+var upgrader = websocket.Upgrader{}
 
 type client struct {
 	conn *websocket.Conn
