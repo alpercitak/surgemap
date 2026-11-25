@@ -7,7 +7,9 @@ Real-time surge map. Go backend (`backend/`) aggregates simulated demand and sup
 - `make dev`: run backend and frontend.
 - `make dev-frontend-demo`: run the frontend with generated demo data.
 - `make build`: build backend and frontend.
-- `make lint`: run Biome on the frontend.
+- `make lint`: `go vet` on the backend; Biome and `tsc` on the frontend.
+- `make test`: Go tests with `-race`.
+- `make up` / `make down`: run the Docker Compose stack (frontend on :5173, nginx proxies `/ws` to the backend).
 - `cd frontend && bun run format`: apply Biome formatting, safe fixes, and import sorting.
 
 ## Conventions
@@ -18,6 +20,7 @@ Real-time surge map. Go backend (`backend/`) aggregates simulated demand and sup
 - Components live in `src/components/<name>/index.tsx` with a co-located `index.module.css`; component-specific constants, types, and helpers sit beside them.
 - Shared types live in `src/types`; data sources live in `src/hooks`.
 - Keep Go code `gofmt`-formatted and inside `backend/internal/<package>`.
+- The frontend reaches `/ws` same-origin (Vite proxy in dev, nginx in Docker); the backend rejects cross-origin WebSocket requests.
 
 ## TypeScript / React
 
@@ -28,4 +31,4 @@ Real-time surge map. Go backend (`backend/`) aggregates simulated demand and sup
 ## Verification
 
 - Frontend changes: `make lint` and `make build-frontend`.
-- Backend changes: `cd backend && go vet ./...` and `make build-backend`.
+- Backend changes: `make lint`, `make test`, and `make build-backend`.
