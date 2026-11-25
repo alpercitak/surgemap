@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import type { Cells, DataHook, Status } from '@/types';
 
-const WS_URL = import.meta.env.VITE_WS_URL || `${location.protocol === 'https:' ? 'wss' : 'ws'}://${location.host}/ws`;
+// Same-origin only: the backend rejects cross-origin WebSocket requests
+const WS_URL = `${location.protocol === 'https:' ? 'wss' : 'ws'}://${location.host}/ws`;
 const RECONNECT_DELAY = 2000;
 
 export const useWebSocket = (): DataHook => {
